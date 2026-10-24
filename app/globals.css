@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #F6F5F1;
+  --ink: #1F1F1D;
+  --sub: #8A8A85;
+  --line: #E6E4DE;
+  --accent: #6E7F8D;
+  --soft: #5E5E59;
+}
+
+[data-theme="dark"] {
+  --bg: #121211;
+  --ink: #E8E6E0;
+  --sub: #7E7E78;
+  --line: #2A2A27;
+  --accent: #8FA3B0;
+  --soft: #B9B7B0;
+}
+
+@theme inline {
+  --color-paper: var(--bg);
+  --color-ink: var(--ink);
+  --color-sub: var(--sub);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-soft: var(--soft);
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+}
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+/* 光标闪烁 */
+@keyframes caret-blink {
+  0%, 55% { opacity: 0.9; }
+  56%, 100% { opacity: 0; }
+}
+.caret {
+  display: inline-block;
+  width: 1px;
+  height: 19px;
+  background: var(--accent);
+  vertical-align: -3px;
+  margin-left: 3px;
+  animation: caret-blink 1.8s steps(1) infinite;
+}
+
+/* 「已收好」淡出 */
+@keyframes fade-soft {
+  0% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+.fade-soft { animation: fade-soft 1.5s ease-out forwards; }
+
+/* 页面淡入 */
+@keyframes page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.page-in { animation: page-in 0.25s ease-out; }
+
+::selection { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+
+textarea, input, button { font-family: inherit; }
+textarea:focus, input:focus, button:focus-visible { outline: none; }
+button { cursor: pointer; }
