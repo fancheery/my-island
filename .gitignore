@@ -46,3 +46,7 @@ next-env.d.ts
 # 我的岛：本地环境变量示例保留，实际值忽略
 .env.local
 .env*.local
+
+# OpenNext ��������� Cloudflare CI ���������ɣ�
+/.open-next/
+
