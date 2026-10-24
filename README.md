@@ -26,7 +26,9 @@ pnpm dev
 1. 打开 <https://supabase.com>，用邮箱注册登录。
 2. 新建一个项目（区域选 **Singapore**，离国内最近），密码自己记住。
 3. 进入 **SQL Editor → New query**，把 [`supabase/schema.sql`](supabase/schema.sql) 整段粘贴运行。
-4. 进入 **Authentication → Providers → Email**：确认 Email 已启用。魔法链接默认即可用。
+4. 进入 **Authentication → Providers → Email**：
+   - **Enable Email provider 保持打开**；
+   - **关掉 Confirm email**（本项目登录方式是邮箱 + 密码，不需要确认邮件）。
 
 ### 2. 填环境变量
 
@@ -38,17 +40,21 @@ NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
 ```
 
-3. 重启 `pnpm dev`。首页会先出现登录框：输入邮箱 → 去邮箱点链接 → 回到岛上。
+3. 重启 `pnpm dev`。首页会先出现登录框：第一次来点「第一次来？创建我的岛」设密码，之后用邮箱 + 密码登录。
 
-## 三、部署（Cloudflare Pages）
+## 三、部署（Cloudflare Pages + GitHub）
 
-1. 把代码推到 GitHub。
-2. Cloudflare Pages 新建项目 → 连 GitHub 仓库。
-3. 构建设置：框架 **Next.js**，构建命令 `pnpm build`，输出目录 `.next`。
-4. 在项目设置里添加环境变量（同 `.env.local` 里的两个值）。
-5. 部署完成后，把域名绑定上去（如 wodedao.app）。
+构建在 Cloudflare 的 Linux 服务器上完成（Windows 本地无法直接产出 Cloudflare 构建包），所以走 Git 集成：
 
-> 也可以部署到 Vercel（步骤类似），只是国内访问不如 Cloudflare 稳定。
+1. 把代码推到 GitHub 仓库（公开或私有均可）。
+2. Cloudflare Pages 新建项目 → **Connect to Git** → 选择该仓库。
+3. 构建设置：框架预设选 **Next.js**；如未自动识别，手动填：构建命令 `npx @opennextjs/cloudflare@latest build`，输出目录 `.open-next`。
+4. 环境变量（必须设置，否则构建出的站点没有后端地址）：
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+5. Save and Deploy。完成后把免费子域（xxx.pages.dev）或自定义域名绑定即可。
+
+> 部署后，访问 Supabase 的是 Cloudflare 的服务器，手机端**不需要代理**。
 
 ## 四、手机上安装
 
